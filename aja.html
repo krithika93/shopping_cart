@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--<meta charset="utf-8">-->
+<title>AJax</title>
+<!--<meta name="description" content="Html">-->
+<link href="common/bootstrap.css" rel="stylesheet">
+<style type="text/css">
+body { padding-top: 40px; padding-left: 25% }
+li {list-style:none; margin:5px 0 5px 0; color:#FF0000}
+</style>
+<script>
+	function hello(book)
+{
+//var book=document.getElementById("book").value;
+if (book.length==0)
+	{
+	document.getElementById("suggestion").innerHTML="";
+	return;
+	}
+var xhr;
+	if(window.XMLHttpRequest) {
+	xhr=new XMLHttpRequest();
+	} else if(window.ActiveXObject) {
+		xhr=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	var data="book_name="+book;
+	xhr.open("GET","book.php?"+data,true);
+	//xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xhr.send();
+	xhr.onreadystatechange=display_data;
+	function display_data() {
+		if(xhr.readyState == 4 )
+		{ if(xhr.status == 200) {
+		document.getElementById("suggestion").innerHTML=xhr.responseText;
+		} else {
+		alert('There is a problem with the request.');
+		}
+	}
+}
+}	
+</script>
+</head>
+<body>
+<form class="well-home span6 form-horizontal" name="ajax-demo" id="ajax-demo">
+	<div class="control-group">
+	<label class="control-label" for="book">BOOK</label>
+		<div class="controls">
+			<input type="text" id="book" onkeyup="hello(this.value)" />
+			<div id="suggestion"></div>
+		</div>
+		
+	</div>
+	<div class="control-group">
+	<div class="controls">
+		<button type="submit" class="btn btn-success">Submit</button>
+	</div>
+	</div>
+</form>
+</body>
+</html>
